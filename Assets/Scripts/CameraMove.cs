@@ -21,6 +21,7 @@ public class CameraMove : MonoBehaviour
         Vector3 pos = GetComponent<Transform>().position;
         Vector3 ballPos = GameObject.Find("Ball").GetComponent<Transform>().position;
         pos.z = ballPos.z - 8;
+        pos.y = ballPos.y + 5;
         GetComponent<Transform>().position = pos;
 
     }

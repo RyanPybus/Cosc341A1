@@ -25,8 +25,6 @@ public class EnemyMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(GetComponent<Rigidbody>().velocity);
-
         if (cooldown > 0) { cooldown -= 1; return; }
 
         if (Mathf.Abs(transform.position.x - home.x) > 4.5)
