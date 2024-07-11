@@ -19,6 +19,12 @@ public class BallMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GetComponent<Transform>().position.y < -5)
+        {
+            Vector3 respawn = new Vector3 (0, 2, 0);
+            GetComponent<Transform>().position = respawn;
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.Space) & onGround)
         {
             jumpPressed = true;
@@ -26,12 +32,12 @@ public class BallMove : MonoBehaviour
 
         if (Input.GetAxis("Horizontal") != 0)
         {
-            horizontalIn = Input.GetAxis("Horizontal")*6;
+            horizontalIn = Input.GetAxis("Horizontal")*5;
         }
 
         if (Input.GetAxis("Vertical") != 0)
         {
-            verticalIn = Input.GetAxis("Vertical")*6;
+            verticalIn = Input.GetAxis("Vertical")*5;
         }
 
     }
