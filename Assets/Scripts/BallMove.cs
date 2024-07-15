@@ -9,11 +9,12 @@ public class BallMove : MonoBehaviour
     bool onGround;
     double horizontalIn;
     double verticalIn;
+    Vector3 rebound;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        rebound = Vector3.zero;
     }
 
     // Update is called once per frame
@@ -47,11 +48,15 @@ public class BallMove : MonoBehaviour
     {
         if (jumpPressed)
         {
-            GetComponent<Rigidbody>().AddForce(Vector3.up * 10, ForceMode.VelocityChange);
-
+            Vector3 oldv = GetComponent<Rigidbody>().velocity;
+            oldv.y = 7;
+            Debug.Log(rebound * 3);
+            oldv = oldv + rebound*3;
+            Debug.Log("newv: " + oldv);
+            GetComponent<Rigidbody>().velocity = oldv;
             jumpPressed = false;
         }
-        if (horizontalIn != 0)
+        if (Mathf.Abs((float)horizontalIn) > 0.2)
         {
             Vector3 v = GetComponent<Rigidbody>().velocity;
             v.x = (float)horizontalIn;
@@ -66,6 +71,16 @@ public class BallMove : MonoBehaviour
 
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("Collision");
+        ContactPoint touch = collision.GetContact(0);
+        Debug.Log("touch point" + touch.point);
+        Vector3 incident = transform.position - touch.point;
+        Debug.Log("incident" + incident);
+        rebound = (incident / (incident.magnitude));
+        Debug.Log("rebound" + rebound);
+    }
     private void OnCollisionStay(Collision collision)
     {
         onGround = true;
