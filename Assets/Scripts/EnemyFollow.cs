@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyKill : MonoBehaviour
+public class EnemyFollow : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -14,14 +14,5 @@ public class EnemyKill : MonoBehaviour
     void Update()
     {
         
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.name == "Ball")
-        {
-            GameObject.Find("Ball").GetComponent<BallMove>().isDead = true;
-
-        }
     }
 }
