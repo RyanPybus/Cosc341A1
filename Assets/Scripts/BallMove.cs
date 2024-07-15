@@ -7,6 +7,8 @@ public class BallMove : MonoBehaviour
     GameObject Ball;
     bool jumpPressed;
     bool onGround;
+    public bool isDead;
+    public bool killable;
     double horizontalIn;
     double verticalIn;
     Vector3 rebound;
@@ -14,17 +16,19 @@ public class BallMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        killable = true;
+        isDead = false;
         rebound = Vector3.zero;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isDead && killable) respawn();
+
         if (GetComponent<Transform>().position.y < -5)
         {
-            Vector3 respawn = new Vector3 (0, 2, 0);
-            GetComponent<Transform>().position = respawn;
-            return;
+            isDead=true;
         }
         if (Input.GetKeyDown(KeyCode.Space) & onGround)
         {
@@ -40,6 +44,16 @@ public class BallMove : MonoBehaviour
         {
             verticalIn = Input.GetAxis("Vertical")*5;
         }
+
+    }
+
+    void respawn()
+    {
+        Vector3 spawn = new Vector3(0, 2, 0);
+        GetComponent<Transform>().position = spawn;
+
+        isDead = false;
+        return;
 
     }
 
