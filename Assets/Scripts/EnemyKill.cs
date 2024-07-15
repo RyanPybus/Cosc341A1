@@ -15,13 +15,4 @@ public class EnemyKill : MonoBehaviour
     {
         
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.name == "Ball")
-        {
-            GameObject.Find("Ball").GetComponent<BallMove>().isDead = true;
-
-        }
-    }
 }
