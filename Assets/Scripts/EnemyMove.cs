@@ -23,15 +23,21 @@ public class EnemyMove : MonoBehaviour
     }
 
     // Update is called once per frame
+    // if enemy is more than 4.5 units away from home, redirect enemy to face home.
     void Update()
     {
-        if (cooldown > 0) { cooldown -= 1; return; }
-
-        if (Mathf.Abs(transform.position.x - home.x) > 4.5)
+        if ((transform.position - home).magnitude > 4.5)
         {
-            Vector3 newVelocity = GetComponent<Rigidbody>().velocity * -1;
+            float speed = GetComponent<Rigidbody>().velocity.magnitude;
+            Vector3 pointHome = (home - transform.position);
+            pointHome = pointHome / pointHome.magnitude;
+            Vector3 newVelocity = pointHome * speed;
+            while (newVelocity.magnitude < 5)
+            {
+                newVelocity = newVelocity * (float)1.1;
+            }
+
             GetComponent<Rigidbody>().velocity = newVelocity;
-            cooldown = 10;
         }
         
     }
