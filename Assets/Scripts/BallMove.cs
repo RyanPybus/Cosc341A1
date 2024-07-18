@@ -9,17 +9,18 @@ public class BallMove : MonoBehaviour
     bool onGround;
     double horizontalIn;
     double verticalIn;
-    Vector3 rebound;
 
     // Start is called before the first frame update
     void Start()
     {
-        rebound = Vector3.zero;
+        isDead = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isDead) respawn();
+
         if (GetComponent<Transform>().position.y < -5)
         {
             Vector3 respawn = new Vector3 (0, 2, 0);
@@ -43,20 +44,28 @@ public class BallMove : MonoBehaviour
 
     }
 
+    // if dead, teleport to start location, decrement score, reset dead status.
+    void respawn()
+    {
+        Vector3 spawn = new Vector3(0, 2, 0);
+        GetComponent<Transform>().position = spawn;
+        GameObject.Find("UI").GetComponent<Scoring>().score--;
+
+        isDead = false;
+        return;
+    }
+
     // Run on physics update
     private void FixedUpdate()
     {
         if (jumpPressed)
         {
             Vector3 oldv = GetComponent<Rigidbody>().velocity;
-            oldv.y = 7;
-            Debug.Log(rebound * 3);
-            oldv = oldv + rebound*3;
-            Debug.Log("newv: " + oldv);
+            oldv.y = 10;
             GetComponent<Rigidbody>().velocity = oldv;
             jumpPressed = false;
         }
-        if (Mathf.Abs((float)horizontalIn) > 0.2)
+        if (horizontalIn != 0)
         {
             Vector3 v = GetComponent<Rigidbody>().velocity;
             v.x = (float)horizontalIn;
@@ -73,13 +82,7 @@ public class BallMove : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Collision");
-        ContactPoint touch = collision.GetContact(0);
-        Debug.Log("touch point" + touch.point);
-        Vector3 incident = transform.position - touch.point;
-        Debug.Log("incident" + incident);
-        rebound = (incident / (incident.magnitude));
-        Debug.Log("rebound" + rebound);
+
     }
     private void OnCollisionStay(Collision collision)
     {
