@@ -1,6 +1,6 @@
-Simple Unity project with for a platformer game.
+Simple Unity project for a platformer game.
 
-Link to walkthrough: ___________
+Link to walkthrough: https://youtu.be/vQB19yTGYNo
 
 Features:
 - score displayed on screen
