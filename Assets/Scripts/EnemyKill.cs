@@ -20,8 +20,15 @@ public class EnemyKill : MonoBehaviour
     {
         if (collision.collider.name == "Ball")
         {
+            ContactPoint impact = collision.GetContact(0);
+            Vector3 up = new Vector3(0, 1, 0);
+            if (Mathf.Abs(Vector3.Dot(impact.normal, up)) > 0.8)
+            {
+                gameObject.SetActive(false);
+                GameObject.Find("UI").GetComponent<Scoring>().score += 5;
+                return;
+            }
             GameObject.Find("Ball").GetComponent<BallMove>().isDead = true;
-
         }
     }
 }
